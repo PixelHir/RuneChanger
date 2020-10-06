@@ -2,6 +2,19 @@ language: java
 jdk: openjdk12
 cache:
   directories:
-    - $HOME/.m2
+  - "$HOME/.m2"
 install: true
-script: mvn clean compile
+script:
+- mvn clean compile
+- apt install -y nsis
+- unzip RuneChanger-1.14.0.zip -d rc-ready
+- cd target
+- makensis ../scripts/installer.nsi
+deploy:
+  provider: releases
+  api_key:
+    secure: YaTWSiVBC36ckUyX+8G0s/Ninn5pGrmeUEJHtf5TyPPVbghCj7wGhG+U8loKH+xCROHBFdVFrRa+v4jKJh05sm+Ol3sHJy+9yM2EnVWrsihAmx0HGFGC4Lbbz/w3qXao5KsMRgSTgnpXEPx65vH/xMSz1mqdauiQHWRNIWfa/3uuKjofgEqGFWaILELaPyo3ToGCC0aF6ULbZ8VZih0RDYZXBsGXJIQ/AvfkxicMNSmG7HtlgfFjzWTkO2eaQDnuN5fCuJDbDWI/FLLK3pbpMuknHvqRg/5IONYvWSp8yvIhw9SXvvDLV+2owgmrGD5mdImJAY809E+DctofeBL04Gt3iXhbn2XADmGtUzbjoczRn1hBSRlwRDKju3q6Vz9yxYyjszaxw0CwTiU3uUYYW0dPW2VJhbYrN3XAZK2u7UVWmLhd33IZGg0a6jiGX8R3Ym+HW3ohowOjPgctJDxV8T5LW1LTVYrsPUwPejfhNnyPsFAWuqU06DCsqnoKK1SpnkH8Ce11uNYyW2QJrKmUzH5wqYBKqDuCFQN/doDMFOtWuxV+dsI8y52sBxkf+MnK6AZrMybmI5leAh6zWeKQw91tDfsWzY9CqOgOl3/f3TQbKnQTWiF03Swje+JQdOws7IL0GmMYm+DWFIK+PDzaRS1MAdL8CKXcQ7CDJS66u1A=
+  file: target/rc-ready/RuneChanger-setup.exe
+  on:
+    repo: PixelHir/RuneChanger
+    branch: feature/installer
