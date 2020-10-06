@@ -5,10 +5,11 @@ cache:
   - "$HOME/.m2"
 install: true
 script:
-- mvn clean compile
+- mvn clean package
 - sudo apt update && sudo apt install -y nsis
 - cd target
 - unzip RuneChanger-1.14.0.zip -d rc-ready
+- cd rc-ready
 - makensis ../scripts/installer.nsi
 deploy:
   provider: releases
